@@ -52,7 +52,10 @@ export const reqAddorUpdateProduct = (product)=>ajax('/manage/product/' + (produ
 export const reqRoles = ()=> ajax('/manage/role/list') 
 
 //添加角色
-export const reqAddRole = (roleName)=> ajax('/manage/role/add/',{roleName},'POST') 
+export const reqAddRole = (roleName)=> ajax('/manage/role/add',{roleName},'POST') 
+
+//更新角色
+export const reqUpdateRole = (role)=> ajax('/manage/role/update',role,'POST') 
 
 
 
