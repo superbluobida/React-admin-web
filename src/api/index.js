@@ -48,6 +48,13 @@ export const reqDeleteImg = (name) => ajax('/manage/img/delete',{name},'POST')
 //添加/更新商品
 export const reqAddorUpdateProduct = (product)=>ajax('/manage/product/' + (product._id ? 'update' : 'add') ,product,'POST')
 
+//获取所有角色的列表
+export const reqRoles = ()=> ajax('/manage/role/list') 
+
+//添加角色
+export const reqAddRole = (roleName)=> ajax('/manage/role/add/',{roleName},'POST') 
+
+
 
 //Jsonp请求的接口请求函数
 export const reqWeather = (city)=>{
