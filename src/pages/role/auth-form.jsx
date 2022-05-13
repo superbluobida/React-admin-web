@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import { Form, Input, Tree } from 'antd'
 
@@ -9,7 +9,7 @@ import menuList from '../../config/menuConfig'
 const Item = Form.Item
 const { TreeNode } = Tree;
 //添加分类的form组件
-export default class AuthForm extends Component {
+export default class AuthForm extends PureComponent {
   
     static propTypes = {
         role: PropTypes.object

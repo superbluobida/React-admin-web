@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import {Card,Form,Input,Cascader,Upload,Button, Icon, message} from 'antd'
 import LinkButton from '../../components/link-button'
@@ -34,7 +34,7 @@ const {TextArea} = Input
 
 
 //Product的添加和更新的子路由
-class ProductAddUpdate extends Component {
+class ProductAddUpdate extends PureComponent {
 
   state = {
     options:[],
