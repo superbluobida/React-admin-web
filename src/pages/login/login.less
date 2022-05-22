@@ -25,6 +25,25 @@
         background-color: #fff;
         margin: 50px auto;
         padding: 20px 40px;
+        position: relative;
+        .error-msg{
+            visibility: hidden;
+            position: absolute;
+            top:0;
+            left:0;
+            text-align: center;
+            height: 30px;
+            width: 100%;
+            background-color: aquamarine;
+            color: #fff;
+            font-size: 16px;
+            transform: translateY(-30px);
+            transition: all .3s;
+            &.show{
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
         h2{
             font-size: 30px;
             text-align: center;

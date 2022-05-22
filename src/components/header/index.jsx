@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './index.less'
 
 import {formateDate} from '../../utils/dateUtils'
-import memoryUtils from '../../utils/memoryUtils'
+// import memoryUtils from '../../utils/memoryUtils'
 
 import { reqWeather } from '../../api'
 
@@ -11,9 +11,14 @@ import menuList from '../../config/menuConfig'
 
 import { Modal } from 'antd';
 
-import storageUtils from '../../utils/storageUtils'
+// import storageUtils from '../../utils/storageUtils'
 
 import LinkButton from '../link-button'
+
+
+import {connect} from 'react-redux'
+import {logout} from '../../redux/actions'
+
 
 class Header extends Component {
 
@@ -59,10 +64,14 @@ class Header extends Component {
       onOk: ()=>{
         // console.log('OK');
         //删除保存的user数据
-        storageUtils.removeUser()
-        memoryUtils.user = {}
+        // storageUtils.removeUser()
+        // memoryUtils.user = {}
+        this.props.logout()
+
+        //自动数据消失自动跳转
+
         //跳到Login
-        this.props.history.replace('/login')
+        // this.props.history.replace('/login')
       },
     })
   }
@@ -82,8 +91,11 @@ class Header extends Component {
   render() {
 
     const {currentTime,weather,temperature} = this.state
-    const username = memoryUtils.user.username
-    const title = this.getTitle()
+    // const username = memoryUtils.user.username
+    const username = this.props.user.username
+    
+    // const title = this.getTitle()
+    const title = this.props.headTitle
 
     return (
       <div className='header'>
@@ -104,4 +116,7 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header)
+export default connect(
+  state =>({headTitle:state.headTitle,user:state.user}),
+  {logout}
+)(withRouter(Header))

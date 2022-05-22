@@ -4,11 +4,16 @@ import { Form, Icon, Input, Button, message } from 'antd';
 import './login.less'
 import logo from '../../assets/images/logo.png'
 
-import {reqLogin} from '../../api'
+// import {reqLogin} from '../../api'
+// import memoryUtils from '../../utils/memoryUtils'
+// import storageUtils from '../../utils/storageUtils'
 
-import memoryUtils from '../../utils/memoryUtils'
-import storageUtils from '../../utils/storageUtils'
+import {login} from '../../redux/actions'
+ 
 import { Redirect } from 'react-router-dom';
+
+import {connect} from 'react-redux'
+
 //登录的路由组件 
 class Login extends Component {
 
@@ -35,21 +40,25 @@ class Login extends Component {
         //   alert('请求出错了'+ error.message)
         // }
 
-        const result = await reqLogin(username, password)
-        if(result.status === 0){
-          //提示登录成功
-          message.success('登录成功')
+        // const result = await reqLogin(username, password)
+        // if(result.status === 0){
+        //   //提示登录成功
+        //   message.success('登录成功')
 
-          const user = result.data
+        //   const user = result.data
 
-          memoryUtils.user = user
-          storageUtils.saveUser(user)
+        //   memoryUtils.user = user
+        //   storageUtils.saveUser(user)
           
-          //跳转到管理界面
-          this.props.history.replace('/')
-        }else{
-          message.error(result.msg)
-        }
+        //   //跳转到管理界面
+        //   this.props.history.replace('/home')
+        // }else{
+        //   message.error(result.msg)
+        // }
+
+        //调用分发异步action => 发登录的异步请求，有了结果后更新状态
+        this.props.login(username, password)
+
       }else{
         console.log('校验失败！');
       }
@@ -84,10 +93,15 @@ class Login extends Component {
   render() {
 
     //如果用户已经登录，自动跳转到管理界面
-    const user = memoryUtils.user
+    // const user = memoryUtils.user
+    const user = this.props.user
+
     if(user && user._id){
-      return <Redirect to='/'/>
+      return <Redirect to='/home'/>
     }
+
+    const errorMsg = this.props.user.errorMsg
+
 
     const form = this.props.form
     const { getFieldDecorator } = form;
@@ -99,6 +113,7 @@ class Login extends Component {
         <h1>React:后台管理系统</h1>
         </header>
         <section className='login-content'>
+          <div className={user.errorMsg ? 'error-msg show' : 'error-msg'}>{user.errorMsg}</div>
           <h2>用户登录</h2>
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
@@ -150,4 +165,7 @@ class Login extends Component {
 //包装From组件生成一个新的组件：Form(Login)
 //新组建会向From组件传递一个强大的对象属性：form
 const WrapLogin = Form.create()(Login)
-export default WrapLogin
+export default connect(
+  state => ({user: state.user}),
+  {login}
+)(WrapLogin)
